@@ -1,0 +1,105 @@
+---
+layout: single
+title:  "JS 기본 개념(제로초)"
+---
+
+# lexical scoping(정적 스콮) | 프로토타입
+
+```js
+
+// 1. 스코프
+var name = 'zero';
+function log(){
+  console.log(name); // nero가 추력된다. 
+}
+
+function wrapper(){
+  name = 'nero'; // var name 변수를 가르킨다.
+  log()
+}
+wrapper();
+
+// 2. 렉시컬 스코프 
+// 위의 코드와 차이점은 var라는 변수타입이 선언되었다는 점이다. 
+
+var name = 'zero';
+function log(){
+  console.log(name); // nero가 추력된다. 
+}
+
+function wrapper(){
+  var name = 'nero'; // var name 변수를 바라보고 있지 않고 wrapper()함수안에 있는 변수다. 함수 밖을 빠져나오면 name이라는 전역에 존재하면 그 값을 대입시킨다. 
+  log();// 이것을 console.log(name)이라고 생각하면 안된다. 
+}
+wrapper();
+
+// 3. 프로토타입
+
+h3 프로토타입 생성
+- 자바스크립트의 모든 객체는 Object.prototype 객체를 프로토타입으로 상속받는다.
+- <scrpit>태그만 보면 되다.
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Express 확인</title>
+</head>
+<body>  
+        
+</body>
+
+<script>
+function Dog(color, name, age) { // 개에 관한 생성자 함수를 작성함.
+
+    this.color = color;          // 색에 관한 프로퍼티
+    this.name = name;            // 이름에 관한 프로퍼티
+    this.age = age;              // 나이에 관한 프로퍼티
+    this.family = "시베리안 허스키"; // 프로토타입에 프로퍼티를 추가할 떄에는 기본값을 가지게 할 수 있음.
+    this.breed = function(){
+      return this.color + " " + this.family;
+  };
+}
+
+var myDog = new Dog("흰색", "마루", 1); // 이 객체는 Dog라는 프로토타입을 가짐.
+var hisDog = new Dog("갈색", "콩이", 3);
+
+document.write("우리 집 강아지는 " + myDog.name + "라는 이름의 " + myDog.color + " 털이 매력적인 강아지입니다."); //우리 집 강아지는 마루라는 이름의 흰색 털이 매력적인 강아지입니다.
+document.write("우리 집 강아지는 " + myDog.breed() + "입니다.");
+document.write("우리 집 강아지는 " + myDog.family + "이고, 친구네 집 강아지도" + hisDog.family + "입니다");
+</script>
+</html>
+```
+
+h3 prototype 프로퍼티를 이용하면 현재 존재하고 있는 프로토타입에 새로운 프로퍼티나 메소드를 손쉽게 추가할 수 있다.
+
+```js
+function Dog(color, name, age) {
+    this.color = color;
+    this.name = name;
+    this.age = age;
+
+}
+
+// 현재 존재하고 있는 Dog 프로토타입에 family 프로퍼티를 추가함.
+Dog.prototype.family = "시베리안 허스키";
+// 현재 존재하고 있는 Dog 프로토타입에 breed 메소드를 추가함.
+Dog.prototype.breed = function() {
+    return this.color + " " + this.family;
+};
+
+var myDog = new Dog("흰색", "마루", 1);
+var hisDog = new Dog("갈색", "콩이", 3);
+
+document.write("우리 집 강아지는 " + myDog.family + "이고, 친구네 집 강아지도 " + hisDog.family + "입니다.");
+document.write("우리 집 강아지의 품종은 " + myDog.breed() + "입니다.<br>");
+document.write("친구네 집 강아지의 품종은 " + hisDog.breed() + "입니다.");
+```
+
+
+
+
+
